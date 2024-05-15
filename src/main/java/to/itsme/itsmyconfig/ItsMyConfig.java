@@ -237,6 +237,7 @@ public final class ItsMyConfig extends JavaPlugin {
      */
     private void loadProgressBarsFromYml(ConfigurationSection section, String fileName) {
         for (String identifier : section.getKeys(false)) {
+            long currentTime = System.currentTimeMillis(); // Capture current time
             ConfigurationSection progressBarSection = section.getConfigurationSection(identifier);
             progressBarBucket.registerProgressBar(
                     new ProgressBar(
@@ -247,7 +248,7 @@ public final class ItsMyConfig extends JavaPlugin {
                             progressBarSection.getString("remaining-color")
                     )
             );
-            getLogger().info(String.format("Registered progress bar %s from file %s", identifier, fileName));
+            getLogger().info(String.format("Registered progress bar %s from file %s in %dms", identifier, fileName, System.currentTimeMillis() - currentTime));
         }
     }
 
@@ -308,7 +309,8 @@ public final class ItsMyConfig extends JavaPlugin {
             }
 
             placeholderManager.register(identifier, placeholderData);
-            getLogger().info(String.format("Registered placeholder %s from file %s", identifier, fileName));
+            long currentTime = System.currentTimeMillis(); // Capture current time
+            getLogger().info(String.format("Registered placeholder %s from file %s in %dms", identifier, fileName, System.currentTimeMillis() - currentTime));
         }
     }
 
