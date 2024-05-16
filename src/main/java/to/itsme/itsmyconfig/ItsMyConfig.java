@@ -8,6 +8,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import to.itsme.itsmyconfig.command.CommandManager;
+import to.itsme.itsmyconfig.listener.impl.PacketChatListener;
+import to.itsme.itsmyconfig.listener.impl.PacketItemListener;
 import to.itsme.itsmyconfig.placeholder.DynamicPlaceHolder;
 import to.itsme.itsmyconfig.placeholder.PlaceholderData;
 import to.itsme.itsmyconfig.placeholder.PlaceholderManager;
@@ -29,6 +31,8 @@ import java.io.File;
  */
 public final class ItsMyConfig extends JavaPlugin {
 
+    private static final boolean ALLOW_ITEM_EDITS = false;
+
     private static ItsMyConfig instance;
     private final PlaceholderManager placeholderManager = new PlaceholderManager();
     private final ProgressBarBucket progressBarBucket = new ProgressBarBucket();
@@ -43,7 +47,7 @@ public final class ItsMyConfig extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getLogger().info("Loading ItsMyConfig...");
+        this.getLogger().info("Loading ItsMyConfig...");
         final long start = System.currentTimeMillis();
         instance = this;
         new DynamicPlaceHolder(this, progressBarBucket).register();
@@ -57,6 +61,11 @@ public final class ItsMyConfig extends JavaPlugin {
         new Metrics(this, 21713);
 
         final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new PacketChatListener(this));
+
+        if (ALLOW_ITEM_EDITS) {
+            protocolManager.addPacketListener(new PacketItemListener(this));
+        }
 
         this.getLogger().info("ItsMyConfig loaded in " + (System.currentTimeMillis() - start) + "ms");
     }
