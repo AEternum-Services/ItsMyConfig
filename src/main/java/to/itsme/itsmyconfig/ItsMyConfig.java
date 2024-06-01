@@ -30,13 +30,12 @@ import java.io.File;
  */
 public final class ItsMyConfig extends JavaPlugin {
 
-    //private static final boolean ALLOW_ITEM_EDITS = true;
+    private static final boolean ALLOW_ITEM_EDITS = false;
 
     private static ItsMyConfig instance;
     private final PlaceholderManager placeholderManager = new PlaceholderManager();
     private final ProgressBarBucket progressBarBucket = new ProgressBarBucket();
     private String symbolPrefix;
-    private boolean allowItemEdits;
     private RequirementManager requirementManager;
 
     private BukkitAudiences adventure;
@@ -63,7 +62,7 @@ public final class ItsMyConfig extends JavaPlugin {
         final ProtocolManager protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.addPacketListener(new PacketChatListener(this));
 
-        if (allowItemEdits) {
+        if (ALLOW_ITEM_EDITS) {
             protocolManager.addPacketListener(new PacketItemListener(this));
         }
 
@@ -88,7 +87,6 @@ public final class ItsMyConfig extends JavaPlugin {
         this.saveDefaultConfig();
         this.reloadConfig();
         this.loadSymbolPrefix();
-        this.loadAllowItemEdits();
         this.loadPlaceholders();
         this.loadProgressBars();
         this.loadCustomYmlFiles();
@@ -99,13 +97,6 @@ public final class ItsMyConfig extends JavaPlugin {
      */
     private void loadSymbolPrefix() {
         this.symbolPrefix = this.getConfig().getString("symbol-prefix");
-    }
-
-    /**
-     * Loads the allow-item-edits setting from the configuration.
-     */
-    private void loadAllowItemEdits() {
-        this.allowItemEdits = this.getConfig().getBoolean("allow-item-edits");
     }
 
     /**
@@ -352,10 +343,6 @@ public final class ItsMyConfig extends JavaPlugin {
      */
     public RequirementManager getRequirementManager() {
         return requirementManager;
-    }
-
-    public boolean isAllowItemEdits() {
-        return allowItemEdits;
     }
 
 }
