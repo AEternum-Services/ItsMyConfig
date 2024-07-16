@@ -175,7 +175,15 @@ public final class Utilities {
     public static TagResolver papiTag(final Player player) {
         return TagResolver.resolver("papi", (argumentQueue, context) -> {
             final String papiPlaceholder = argumentQueue.popOr("papi tag requires an argument").value();
-            final String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, '%' + papiPlaceholder + '%');
+            String parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, '%' + papiPlaceholder + '%');
+
+            // Reparse the placeholder until no more placeholders are found
+            String previousParsed;
+            do {
+                previousParsed = parsedPlaceholder;
+                parsedPlaceholder = PlaceholderAPI.setPlaceholders(player, previousParsed);
+            } while (!previousParsed.equals(parsedPlaceholder));
+
             return Tag.preProcessParsed(parsedPlaceholder.replace("§", "&"));
         });
     }
