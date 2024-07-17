@@ -1,6 +1,7 @@
 package to.itsme.itsmyconfig.util;
 
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -213,6 +214,16 @@ public final class Strings {
             }
         }
         return roman.toString();
+    }
+
+    /**
+     * Converts a list of strings to a string, where each string is represented on a new line.
+     *
+     * @param list The list of strings to be converted to a string.
+     * @return The string representation of the list.
+     */
+    public static String toString(final @NotNull List<String> list) {
+        return String.join(System.lineSeparator(), list.stream().map(Object::toString).toArray(String[]::new));
     }
 
 }
