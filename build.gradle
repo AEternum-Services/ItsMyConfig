@@ -36,12 +36,12 @@ repositories {
         url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
     }
     maven {
-        name = "devmart-other"
-        url = "https://nexuslite.gcnt.net/repos/other/"
-    }
-    maven {
         name = "redempt.dev"
         url = "https://redempt.dev"
+    }
+    maven {
+        name = "devmart-other"
+        url = "https://nexuslite.gcnt.net/repos/other/"
     }
 }
 
